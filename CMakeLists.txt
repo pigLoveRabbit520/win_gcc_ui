@@ -4,4 +4,4 @@ project(tiny_ui)
 
 set(SOURCE src/main.cpp)
 
-add_executable(${PROJECT_NAME} ${SOURCE})
+add_executable(${PROJECT_NAME} WIN32 ${SOURCE})

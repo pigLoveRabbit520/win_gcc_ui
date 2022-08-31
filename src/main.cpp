@@ -51,9 +51,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     hwnd = CreateWindowEx(
         WS_EX_CLIENTEDGE,
         g_szClassName,
-        "The title of my window",
+        "Happy Today",
         WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, 240, 120,
+        CW_USEDEFAULT, CW_USEDEFAULT, 370, 250,
         NULL, NULL, hInstance, NULL);
 
     if(hwnd == NULL)
