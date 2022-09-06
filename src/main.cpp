@@ -1,18 +1,40 @@
 #include <windows.h>
+#include <stdio.h>
+#include <nlohmann/json.hpp>
 
-const char g_szClassName[] = "myWindowClass";
+#define ID_CHANGE_TITLE  2
+
+const wchar_t *g_szClassName = L"myWindowClass";
+HWND hwnd;
+HWND hButtonLine;
 
 // Step 4: the Window Procedure
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch(msg)
     {
+        case WM_CREATE:
+            {
+                hButtonLine = CreateWindowW(L"BUTTON", L"change title", WS_VISIBLE | WS_CHILD, 20, 50, 150, 25, hwnd, (HMENU)ID_CHANGE_TITLE, NULL, NULL);
+                break;
+            }
+        case WM_COMMAND:
+            switch (HIWORD(wParam)) {
+                case BN_CLICKED:
+                    SetWindowText(hButtonLine, L"You clicked the button");
+                    break;
+                default:
+                    break;
+            }
         case WM_CLOSE:
-            DestroyWindow(hwnd);
-        break;
+            if (MessageBox(hwnd, L"Really quit?", L"My application", MB_OKCANCEL) == IDOK)
+            {
+                DestroyWindow(hwnd);
+            }
+            break;
         case WM_DESTROY:
             PostQuitMessage(0);
-        break;
+            break;
         default:
             return DefWindowProc(hwnd, msg, wParam, lParam);
     }
@@ -23,7 +45,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     LPSTR lpCmdLine, int nCmdShow)
 {
     WNDCLASSEX wc;
-    HWND hwnd;
     MSG Msg;
 
     //Step 1: Registering the Window Class
@@ -42,7 +63,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     if(!RegisterClassEx(&wc))
     {
-        MessageBox(NULL, "Window Registration Failed!", "Error!",
+        MessageBox(NULL, L"Window Registration Failed!", L"Error!",
             MB_ICONEXCLAMATION | MB_OK);
         return 0;
     }
@@ -51,14 +72,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     hwnd = CreateWindowEx(
         WS_EX_CLIENTEDGE,
         g_szClassName,
-        "Happy Today",
+        L"Happy Today",
         WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, 370, 250,
+        CW_USEDEFAULT, CW_USEDEFAULT, 450, 250,
         NULL, NULL, hInstance, NULL);
 
     if(hwnd == NULL)
     {
-        MessageBox(NULL, "Window Creation Failed!", "Error!",
+        MessageBox(NULL, L"Window Creation Failed!", L"Error!",
             MB_ICONEXCLAMATION | MB_OK);
         return 0;
     }
