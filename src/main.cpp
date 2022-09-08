@@ -26,6 +26,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 default:
                     break;
             }
+            break;
         case WM_CLOSE:
             if (MessageBox(hwnd, L"Really quit?", L"My application", MB_OKCANCEL) == IDOK)
             {
